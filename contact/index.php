@@ -7,14 +7,17 @@ header('X-FRAME-OPTIONS: SAMEORIGIN');
 function h($s) {
     return htmlspecialchars($s, ENT_QUOTES, "UTF-8");
 }
-$rest_json = file_get_contents("php://input"); // JSONでPOSTされたデータを取り出す
-$_POST = json_decode($rest_json, true); // JSON文字列をデコード
+$rest_json = file_get_contents("php://input");
+$_POST = json_decode($rest_json, true);
 $specification = h($_POST['specification']);
 $age = h($_POST['age']);
 $content = h($_POST['content']);
 $content = mb_convert_encoding($content,"ISO-2022-JP-ms","UTF-8");
 $password = h($_POST['password']);
-if($password === 'XGb(N~/vVR%y'): ?>
+require 'vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+if($password === $_ENV["PASSWORD"]): ?>
 
     <?php
     mb_language("Japanese");
